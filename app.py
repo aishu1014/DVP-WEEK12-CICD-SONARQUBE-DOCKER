@@ -1,9 +1,10 @@
-def greet():
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
     return "Welcome to DVP Week 12 CI/CD Assignment!"
 
-def add(a, b):
-    return a + b
-
-if __name__ == "__main__":
-    print(greet())
-    print("Addition:", add(10, 20))
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

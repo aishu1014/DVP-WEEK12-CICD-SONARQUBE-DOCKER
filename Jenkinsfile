@@ -20,20 +20,21 @@ pipeline {
                 sh 'python3 -m pytest -v'
             }
         }
-
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                    sonar-scanner \
+stage('SonarQube Analysis') {
+    steps {
+        script {
+            def scannerHome = tool 'SonarScanner'
+            withSonarQubeEnv('SonarQube') {
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=DVP-WEEK12-CICD-SONARQUBE-DOCKER \
                     -Dsonar.sources=. \
                     -Dsonar.exclusions=test_app.py
-                    '''
-                }
+                """
             }
         }
-
+    }
+}
         stage('Docker Build') {
             steps {
                 sh 'docker build -t dvp-week12-app .'
